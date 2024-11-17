@@ -9,7 +9,7 @@ document.querySelectorAll('.faq-question').forEach(item => {
             answer.style.height = answer.scrollHeight + "px";
         }
     });
-});
+});     
 
 //3
 
@@ -74,24 +74,38 @@ updateDateTime();
 
 
 const apiKey = 'a184cec28e18696aa72e9629c0f4f09c';
-    const city = 'Nur-Sultan';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+const city = 'Nur-Sultan';
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`;
 
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка при получении данных: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const weatherDiv = document.getElementById('weather');
-            weatherDiv.innerHTML = `Температура в ${data.name}: ${data.main.temp} °C`;
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            document.getElementById('weather').textContent = "Не удалось загрузить данные о погоде.";
-        });
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при получении данных: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const weatherDiv = document.getElementById('weather');
+        const iconCode = data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        const description = data.weather[0].description;
+
+        weatherDiv.innerHTML = `
+            <h2>Погода в ${data.name}</h2>
+            <img src="${iconUrl}" alt="Иконка погоды">
+            <p>${description.charAt(0).toUpperCase() + description.slice(1)}</p>
+            <p>Температура: ${data.main.temp} °C</p>
+            <p>Ощущается как: ${data.main.feels_like} °C</p>
+            <p>Влажность: ${data.main.humidity}%</p>
+        `;
+        weatherDiv.classList.add('loaded');
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        const weatherDiv = document.getElementById('weather');
+        weatherDiv.textContent = "Не удалось загрузить данные о погоде.";
+        weatherDiv.classList.add('loaded');
+    });
 
 
 
