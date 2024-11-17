@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <div class="login">LOGIN</div>
-        <form class="dataToLogIn" onsubmit="loginCheck(event);" for="log">
+        <form id="loginForm" class="dataToLogIn" onsubmit="loginCheck(event);">
             <div class="email">
                 <label class="emailText" for="email">Email</label>
                 <input type="email" class="emailInput" id="email" name="email" required>
@@ -20,10 +20,10 @@
                 <input name="password" type="password" id="password" class="passwordInput" required>
             </div>
             <div class="rememberMe">
-                <input type="checkbox" class="checkboxInput">
-                <span class="rememberMeText">Remember me?</span>
+                <input type="checkbox" id="rememberMe" class="checkboxInput">
+                <label for="rememberMe" class="rememberMeText">Remember me?</label>
             </div>
-            <button class="loginButton" id="logBtn">Login</button>
+            <button type="submit" class="loginButton" id="logBtn">Login</button>
         </form>
         <button class="forgotPasswordButton">Forgot Password?</button> 
         <span class="orText">OR</span>
